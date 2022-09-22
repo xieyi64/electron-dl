@@ -201,8 +201,8 @@ module.exports.download = (window_, url, options) => new Promise((resolve, rejec
 		...options,
 		unregisterWhenDone: true
 	};
-
-	registerListener(window_.webContents.session, options, (error, item) => {
+	let win = window_.webContents === undefined ? BrowserWindow.getFocusedWindow() : window_;
+	registerListener(win.webContents.session, options, (error, item) => {
 		if (error) {
 			reject(error);
 		} else {
@@ -210,5 +210,5 @@ module.exports.download = (window_, url, options) => new Promise((resolve, rejec
 		}
 	});
 
-	window_.webContents.downloadURL(url);
+	win.webContents.downloadURL(url);
 });
