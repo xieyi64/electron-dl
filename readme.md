@@ -1,10 +1,10 @@
 # electron-dl
 
-> Simplified file downloads for your [Electron](https://electronjs.org) app
+> Simplified file downloads for your [Electron](https://electronjs.org) common
 
 ## Why?
 
-- One function call instead of having to manually implement a lot of [boilerplate](index.js).
+- One function call instead of having to manually implement a lot of [boilerplate](common.js).
 - Saves the file to the users Downloads directory instead of prompting.
 - Bounces the Downloads directory in the dock when done. *(macOS)*
 - Handles multiple downloads.
@@ -25,17 +25,17 @@ Requires Electron 7 or later.
 
 ### Register it for all windows
 
-This is probably what you want for your app.
+This is probably what you want for your common.
 
 ```js
-const {app, BrowserWindow} = require('electron');
+const {common, BrowserWindow} = require('electron');
 const electronDl = require('electron-dl');
 
 electronDl();
 
 let win;
 (async () => {
-	await app.whenReady();
+	await common.whenReady();
 	win = new BrowserWindow();
 })();
 ```
@@ -90,7 +90,7 @@ Note: Only use this option when strictly necessary. Downloading directly without
 #### directory
 
 Type: `string`\
-Default: [User's downloads directory](https://electronjs.org/docs/api/app/#appgetpathname)
+Default: [User's downloads directory](https://electronjs.org/docs/api/common/#appgetpathname)
 
 The directory to save the file in.
 
@@ -151,7 +151,7 @@ Type: `Function`
 Optional callback that receives an object containing information about the combined progress of all download items done within any registered window.
 
 Each time a new download is started, the next callback will include it. The progress percentage could therefore become smaller again.
-This callback provides the same data that is used for the progress bar on the app icon.
+This callback provides the same data that is used for the progress bar on the common icon.
 
 ```js
 {
@@ -222,7 +222,7 @@ npm start
 
 ## Related
 
-- [electron-debug](https://github.com/sindresorhus/electron-debug) - Adds useful debug features to your Electron app
-- [electron-context-menu](https://github.com/sindresorhus/electron-context-menu) - Context menu for your Electron app
-- [electron-store](https://github.com/sindresorhus/electron-store) - Save and load data like user preferences, app state, cache, etc
-- [electron-unhandled](https://github.com/sindresorhus/electron-unhandled) - Catch unhandled errors and promise rejections in your Electron app
+- [electron-debug](https://github.com/sindresorhus/electron-debug) - Adds useful debug features to your Electron common
+- [electron-context-menu](https://github.com/sindresorhus/electron-context-menu) - Context menu for your Electron common
+- [electron-store](https://github.com/sindresorhus/electron-store) - Save and load data like user preferences, common state, cache, etc
+- [electron-unhandled](https://github.com/sindresorhus/electron-unhandled) - Catch unhandled errors and promise rejections in your Electron common
