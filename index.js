@@ -4,6 +4,7 @@ const {app, BrowserWindow, shell, dialog} = require('electron');
 const unusedFilename = require('unused-filename');
 const pupa = require('pupa');
 const extName = require('ext-name');
+const settings = {}
 
 const getFilenameFromMime = (name, mime) => {
 	const extensions = extName.mime(mime);
@@ -67,11 +68,11 @@ function registerListener(session, options, callback = () => {}) {
 
 		const window_ = majorElectronVersion() >= 12 ? BrowserWindow.fromWebContents(webContents) : getWindowFromWebContents(webContents);
 
+		const directory = options.directory || settings.directory ||app.getPath('downloads');
+
 		if (options.directory && !path.isAbsolute(options.directory)) {
 			throw new Error('The `directory` option must be an absolute path');
 		}
-
-		const directory = options.directory || app.getPath('downloads');
 
 		let filePath;
 		if (options.filename) {
@@ -196,15 +197,7 @@ module.exports = (options = {}) => {
 	});
 };
 
-module.exports.register = (window, options = {}) => {
-	const session = window.webContents.session
-	registerListener(session, options, (error, _) => {
-		if (error) {
-			const errorTitle = options.errorTitle || 'Download Error';
-			dialog.showErrorBox(errorTitle, error.message);
-		}
-	});
-};
+module.exports.settings = settings;
 
 module.exports.download = (window_, url, options) => new Promise((resolve, reject) => {
 	options = {
