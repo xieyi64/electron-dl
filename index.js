@@ -196,6 +196,16 @@ module.exports = (options = {}) => {
 	});
 };
 
+module.exports.register = (window, options = {}) => {
+	const session = window.webContents.session
+	registerListener(session, options, (error, _) => {
+		if (error) {
+			const errorTitle = options.errorTitle || 'Download Error';
+			dialog.showErrorBox(errorTitle, error.message);
+		}
+	});
+};
+
 module.exports.download = (window_, url, options) => new Promise((resolve, reject) => {
 	options = {
 		...options,
