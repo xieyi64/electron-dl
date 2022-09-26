@@ -159,7 +159,6 @@ declare const electronDl: {
 		options?: electronDl.Options
 	): Promise<DownloadItem>;
 
-	settings: object;
 };
 
 export = electronDl;

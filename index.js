@@ -4,7 +4,7 @@ const {app, BrowserWindow, shell, dialog} = require('electron');
 const unusedFilename = require('unused-filename');
 const pupa = require('pupa');
 const extName = require('ext-name');
-const settings = {}
+let settings = {}
 
 const getFilenameFromMime = (name, mime) => {
 	const extensions = extName.mime(mime);
@@ -187,17 +187,16 @@ function registerListener(session, options, callback = () => {}) {
 }
 
 module.exports = (options = {}) => {
-	app.on('session-created', session => {
-		registerListener(session, options, (error, _) => {
-			if (error) {
-				const errorTitle = options.errorTitle || 'Download Error';
-				dialog.showErrorBox(errorTitle, error.message);
-			}
-		});
-	});
+	settings = options;
+	// app.on('session-created', session => {
+	// 	registerListener(session, options, (error, _) => {
+	// 		if (error) {
+	// 			const errorTitle = options.errorTitle || 'Download Error';
+	// 			dialog.showErrorBox(errorTitle, error.message);
+	// 		}
+	// 	});
+	// });
 };
-
-module.exports.settings = settings;
 
 module.exports.download = (window_, url, options) => new Promise((resolve, reject) => {
 	options = {
